@@ -15,7 +15,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from cooking import views as v
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('add_i/', v.IngredientsFormView.as_view(), name="add_ingredient"),
+
 ]

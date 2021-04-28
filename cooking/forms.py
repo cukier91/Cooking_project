@@ -1,12 +1,11 @@
 from django import forms
-from .models import Person, Movie
+from .models import *
 
-class PeopleForm(forms.ModelForm):
+
+class IngredientForm(forms.ModelForm):
     class Meta:
-        model = Person
+        model = IngredientsModel
         fields = [
-            'first_name',
-            'last_name'
+            'name',
         ]
-
 
