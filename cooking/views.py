@@ -1,8 +1,9 @@
 from django.shortcuts import render, redirect
+from django.views.generic.edit import FormView, CreateView
 from django.views import View
 from .models import *
-from .forms import IngredientForm
-from django.views.generic.edit import FormView
+
+from .forms import IngredientForm, RecipeForm
 
 
 class IngredientsFormView(FormView):
@@ -17,4 +18,24 @@ class IngredientsFormView(FormView):
             form.save()
             return redirect('/add_i/')
 
+
+class RecipeFormView(FormView):
+
+    def get(self, request, *args, **kwargs):
+        form = RecipeForm()
+        recipe = RecipeModel.objects.all()
+        return render(request, 'cooking/recipe_form.html', {'form': form, 'recipe': recipe})
+
+    def post(self, request, *args, **kwargs):
+        form = RecipeForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('/add_r/')
+
+
+class RecipeDetailView(View):
+
+    def get(self, request, pk, *args, **kwargs):
+        recipe = RecipeModel.objects.get(id=pk)
+        return render(request, 'cooking/recipe_detail.html', {'recipe': recipe, 'pk': pk})
 

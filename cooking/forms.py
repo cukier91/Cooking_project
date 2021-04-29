@@ -9,3 +9,11 @@ class IngredientForm(forms.ModelForm):
             'name',
         ]
 
+
+class RecipeForm(forms.ModelForm):
+    class Meta:
+        model = RecipeModel
+        fields = '__all__'
+        exclude = ['date', 'ingredients']
+
+
