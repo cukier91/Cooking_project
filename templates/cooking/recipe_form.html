@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add new Recipe</title>
+</head>
+<body>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p}}
+    <button type="submit">Dodaj</button>
+</form>
+
+{% for r in recipe %}
+<ul>
+<li><a href="/detail_r/{{ r.id }}">{{ r.titile }} </a></li>
+</ul>
+{% endfor %}
+</body>
+</html>

@@ -20,5 +20,7 @@ from cooking import views as v
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('add_i/', v.IngredientsFormView.as_view(), name="add_ingredient"),
+    path('add_r/', v.RecipeFormView.as_view(), name="add_recipe"),
+    path('detail_r/<int:pk>/', v.RecipeDetailView.as_view(), name="detail_recipe"),
 
 ]
