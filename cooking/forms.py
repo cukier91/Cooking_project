@@ -14,6 +14,17 @@ class RecipeForm(forms.ModelForm):
     class Meta:
         model = RecipeModel
         fields = '__all__'
-        exclude = ['date', 'ingredients']
+        exclude = ['date']
 
 
+class RecipeIngredientForm(forms.ModelForm):
+    class Meta:
+        model = RecipeIngredientsModel
+        fields = [
+            'ingredients',
+            'recipe',
+            'amount'
+        ]
+        widgets = {
+            'recipe': forms.HiddenInput,
+        }
