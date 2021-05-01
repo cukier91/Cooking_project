@@ -1,3 +1,4 @@
+{% extends "cooking/base.html" %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,16 +6,22 @@
     <title>Add new Recipe</title>
 </head>
 <body>
-<form method="post">
+{% block content %}
+<form class="container" method="post">
     {% csrf_token %}
     {{ form.as_p}}
     <button type="submit">Dodaj</button>
 </form>
 
 {% for r in recipe %}
-<ul>
-<li><a href="/detail_r/{{ r.id }}">{{ r.titile }} </a></li>
+
+<ul style="margin-top: 30px">
+<li><a href="/detail_r/{{ r.id }}"> {{ r.title }}</a></li>
 </ul>
 {% endfor %}
+
+{% endblock %}
+
 </body>
 </html>
+
