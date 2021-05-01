@@ -28,9 +28,10 @@ class RecipeFormView(FormView):
 
     def post(self, request, *args, **kwargs):
         form = RecipeForm(request.POST)
+        recipe = RecipeModel.objects.last()
         if form.is_valid():
             form.save()
-            return redirect('/add_r/')
+            return redirect(f'/detail_r/{recipe.id}/')
 
 
 class RecipeDetailView(View):
@@ -38,4 +39,9 @@ class RecipeDetailView(View):
     def get(self, request, pk, *args, **kwargs):
         recipe = RecipeModel.objects.get(id=pk)
         return render(request, 'cooking/recipe_detail.html', {'recipe': recipe, 'pk': pk})
+
+class MainView(View):
+
+    def get(self, request, *args, **kwargs):
+        return render(request, 'cooking/base.html')
 

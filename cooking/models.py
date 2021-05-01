@@ -12,7 +12,8 @@ class IngredientsModel(models.Model):
 
 class RecipeModel(models.Model):
     title = models.CharField(max_length=500)
-    description = models.TextField()
+    description = models.CharField(max_length=1000)
+    preparation = models.TextField(null=True)
     date = models.DateTimeField(default=now, blank=True)
     ingredients = models.ManyToManyField(IngredientsModel, through='RecipeIngredientsModel')
 
