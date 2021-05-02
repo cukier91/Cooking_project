@@ -14,7 +14,7 @@ class RecipeForm(forms.ModelForm):
     class Meta:
         model = RecipeModel
         fields = '__all__'
-        exclude = ['date']
+        exclude = ['date', 'ingredients']
 
 
 class RecipeIngredientForm(forms.ModelForm):

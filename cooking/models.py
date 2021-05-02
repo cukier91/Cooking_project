@@ -21,4 +21,4 @@ class RecipeModel(models.Model):
 class RecipeIngredientsModel(models.Model):
     ingredients = models.ForeignKey(IngredientsModel, on_delete=models.CASCADE)
     recipe = models.ForeignKey(RecipeModel, on_delete=models.CASCADE)
-    amount = models.PositiveIntegerField()
+    amount = models.PositiveIntegerField(null=True, default=0)

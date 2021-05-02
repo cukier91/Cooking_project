@@ -38,15 +38,16 @@ class RecipeFormView(FormView):
 class RecipeDetailView(View):
 
     def get(self, request, pk, *args, **kwargs):
+        delete = RecipeIngredientsModel.objects.filter(amount__exact=0).delete()
         recipe = RecipeModel.objects.get(id=pk)
         form = RecipeIngredientForm(initial={'recipe': recipe})
         return render(request, 'cooking/recipe_detail.html', {'recipe': recipe, 'pk': pk, 'form': form})
 
     def post(self, request, *args, **kwargs):
         form = RecipeIngredientForm(request.POST or None)
-        recipe_id = RecipeModel.objects.all().last().id
         if form.is_valid():
             form.save()
+            recipe_id = RecipeIngredientsModel.objects.all().last().recipe_id
             return redirect(f'/detail_r/{recipe_id}/')
 
 
