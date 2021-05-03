@@ -9,8 +9,9 @@ from .forms import IngredientForm, RecipeForm, RecipeIngredientForm
 class IngredientsFormView(FormView):
 
     def get(self, request, *args, **kwargs):
+        ingredients = IngredientsModel.objects.all()
         form = IngredientForm()
-        return render(request, 'cooking/ingredients_form.html', {'form': form})
+        return render(request, 'cooking/ingredients_form.html', {'form': form, 'ingredients': ingredients})
 
     def post(self, request, *args, **kwargs):
         form = IngredientForm(request.POST)
@@ -54,5 +55,5 @@ class RecipeDetailView(View):
 class MainView(View):
 
     def get(self, request, *args, **kwargs):
-        return render(request, 'cooking/base.html')
+        return render(request, 'cooking/home.html')
 
