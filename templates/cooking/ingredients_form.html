@@ -1,3 +1,4 @@
+{% extends "cooking/base.html" %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,10 +6,32 @@
     <title>Add new Ingredient</title>
 </head>
 <body>
+{% block content %}
 <form method="post">
     {% csrf_token %}
     {{ form.as_p}}
-    <button type="submit">Dodaj</button>
+    <button type="submit" class="btn btn-info">Dodaj do bazy</button>
 </form>
+    <div class="table-responsive" style="text-align: center">
+        <h5 style="margin-top: 20px"><b>Baza składników</b></h5>
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Składnik</th>
+
+            </tr>
+            </thead>
+            <tbody>
+            {% for i in ingredients %}
+            <tr>
+                <th scope="row">{{ i.id }}</th>
+                <td>{{ i.name }}</td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
 </body>
 </html>
