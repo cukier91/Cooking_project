@@ -15,6 +15,9 @@ class RecipeForm(forms.ModelForm):
         model = RecipeModel
         fields = '__all__'
         exclude = ['date', 'ingredients']
+        widgets = {
+            'mealtype': forms.CheckboxSelectMultiple
+        }
 
 
 class RecipeIngredientForm(forms.ModelForm):
@@ -23,7 +26,8 @@ class RecipeIngredientForm(forms.ModelForm):
         fields = [
             'ingredients',
             'recipe',
-            'amount'
+            'amount',
+            'unit'
         ]
         widgets = {
             'recipe': forms.HiddenInput,
