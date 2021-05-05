@@ -37,7 +37,7 @@ class RecipeModel(models.Model):
     title = models.CharField(max_length=500)
     description = models.CharField(max_length=1000)
     preparation = models.TextField(null=True)
-    mealtype = MultiSelectField(choices=MEAL_CHOICE, max_choices=2, null=True)
+    mealtype = MultiSelectField(choices=MEAL_CHOICE, max_choices=2, null=True, max_length=500)
     date = models.DateTimeField(default=now, blank=True)
     ingredients = models.ManyToManyField(IngredientsModel, through='RecipeIngredientsModel')
 
