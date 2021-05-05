@@ -13,6 +13,31 @@
         {{ form.as_p }}
     <input type="submit" value="Dodaj">
     </form>
+    <section>
+    <div>
+            <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">Składnik</th>
+                <th scope="col">Ilość</th>
+                <th scope="col">Jednostka</th>
+                <th scope="col">delete</th>
+
+            </tr>
+            </thead>
+            <tbody>
+            {% for i in ingredients %}
+            <tr>
+                <th scope="row">{{i.ingredients}}</th>
+                <td>{{ i.amount}}</td>
+                <td>{{ i.unit}}</td>
+                <td><a href="/detail_r/delete/{{i.ingredients_id}}/{{ i.recipe_id }}/">Usuń</a></td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    </section>
 {% endblock %}
 </body>
 </html>

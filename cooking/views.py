@@ -41,8 +41,17 @@ class RecipeDetailView(View):
     def get(self, request, pk, *args, **kwargs):
         delete = RecipeIngredientsModel.objects.filter(amount__exact=0).delete()
         recipe = RecipeModel.objects.get(id=pk)
+        ingredients = RecipeIngredientsModel.objects.filter(recipe_id=pk)
+
         form = RecipeIngredientForm(initial={'recipe': recipe})
-        return render(request, 'cooking/recipe_detail.html', {'recipe': recipe, 'pk': pk, 'form': form})
+        context = {
+            'recipe': recipe,
+            'pk': pk,
+            'form': form,
+            'ingredients': ingredients,
+
+        }
+        return render(request, 'cooking/recipe_detail.html', context)
 
     def post(self, request, *args, **kwargs):
         form = RecipeIngredientForm(request.POST or None)
@@ -56,4 +65,12 @@ class MainView(View):
 
     def get(self, request, *args, **kwargs):
         return render(request, 'cooking/home.html')
+
+
+def delete_ingredient(request, ingredients_id, recipe_id):
+    ingredient = RecipeIngredientsModel.objects.filter(ingredients_id=ingredients_id, recipe_id=recipe_id)
+    redirect_direct = [ingredient[0].recipe_id]
+    if request.method == 'GET':
+        ingredient.delete()
+        return redirect(f'/detail_r/{redirect_direct[0]}/')
 

@@ -12,24 +12,24 @@ class IngredientsModel(models.Model):
 
 
 class Unit(models.TextChoices):
-    mililiter = "ML", "ml"
-    liter = "L", "l"
-    gram = "G", "g"
-    decagram = "KO", "dag"
-    kilogram = "KG", "kg"
-    spoon = "Ł", "łyżka"
-    spoons = "ŁY", "łyżki"
-    teaspoon = "ł", "łyżeczka"
-    teaspoons = "ły", "łyżeczki"
-    quantity = "SZT", "szt"
+    mililiter = "ml", "ml"
+    liter = "l", "l"
+    gram = "g", "g"
+    decagram = "dag", "dag"
+    kilogram = "kg", "kg"
+    spoon = "łyżka", "łyżka"
+    spoons = "łyżki", "łyżki"
+    teaspoon = "łyżeczka", "łyżeczka"
+    teaspoons = "łyżeczki", "łyżeczki"
+    quantity = "szt.", "szt."
 
 
 MEAL_CHOICE = (
-    (1, 'Śniadanie'),
-    (2, 'Drugie śniadanie'),
-    (3, 'Lunch do pracy'),
-    (4, 'Obiad'),
-    (5, 'Kolacja')
+    ('Śniadanie', 'Śniadanie'),
+    ('Drugie śniadanie', 'Drugie śniadanie'),
+    ('Lunch do pracy', 'Lunch do pracy'),
+    ('Obiad', 'Obiad'),
+    ('Kolacja', 'Kolacja')
 )
 
 
@@ -37,7 +37,7 @@ class RecipeModel(models.Model):
     title = models.CharField(max_length=500)
     description = models.CharField(max_length=1000)
     preparation = models.TextField(null=True)
-    mealtype = MultiSelectField(choices=MEAL_CHOICE, max_choices=2, null=True)
+    mealtype = MultiSelectField(choices=MEAL_CHOICE, max_choices=2, null=True, max_length=500)
     date = models.DateTimeField(default=now, blank=True)
     ingredients = models.ManyToManyField(IngredientsModel, through='RecipeIngredientsModel')
 
