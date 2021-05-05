@@ -21,7 +21,6 @@
                 <th scope="col">Składnik</th>
                 <th scope="col">Ilość</th>
                 <th scope="col">Jednostka</th>
-                <th scope="col">delete</th>
 
             </tr>
             </thead>
@@ -31,7 +30,8 @@
                 <th scope="row">{{i.ingredients}}</th>
                 <td>{{ i.amount}}</td>
                 <td>{{ i.unit}}</td>
-                <td><a href="/detail_r/delete/{{i.ingredients_id}}/{{ i.recipe_id }}/">Usuń</a></td>
+                <td><a href="/detail_r/delete/{{i.ingredients_id}}/{{ i.recipe_id }}/">
+                    <button type="button" class="btn btn-info">Usuń</button></a></td>
             </tr>
             {% endfor %}
             </tbody>
