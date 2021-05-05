@@ -41,8 +41,18 @@ class RecipeDetailView(View):
     def get(self, request, pk, *args, **kwargs):
         delete = RecipeIngredientsModel.objects.filter(amount__exact=0).delete()
         recipe = RecipeModel.objects.get(id=pk)
+        # recipe = RecipeModel.objects.get(id=pk).ingredients.all()
+        ingredients = RecipeIngredientsModel.objects.filter(recipe_id=pk)
+
         form = RecipeIngredientForm(initial={'recipe': recipe})
-        return render(request, 'cooking/recipe_detail.html', {'recipe': recipe, 'pk': pk, 'form': form})
+        context = {
+            'recipe': recipe,
+            'pk': pk,
+            'form': form,
+            'ingredients': ingredients,
+
+        }
+        return render(request, 'cooking/recipe_detail.html', context)
 
     def post(self, request, *args, **kwargs):
         form = RecipeIngredientForm(request.POST or None)
