@@ -17,11 +17,13 @@ class Unit(models.TextChoices):
     gram = "g", "g"
     decagram = "dag", "dag"
     kilogram = "kg", "kg"
-    spoon = "łyżka", "łyżka"
-    spoons = "łyżki", "łyżki"
-    teaspoon = "łyżeczka", "łyżeczka"
-    teaspoons = "łyżeczki", "łyżeczki"
+    spoon = "łyżka(i)", "łyżka(i)"
+    teaspoon = "łyżeczka(i)", "łyżeczka(i)"
     quantity = "szt.", "szt."
+    can = "puszka(i)", "puszka(i)"
+    fruit = "ząbek(ki)", "ząbek(ki)"
+    bar = "kostka(i)", "kostka(i)"
+    glass = "szklanka(i)", "szklanka(i)"
 
 
 MEAL_CHOICE = (
@@ -45,5 +47,5 @@ class RecipeModel(models.Model):
 class RecipeIngredientsModel(models.Model):
     ingredients = models.ForeignKey(IngredientsModel, on_delete=models.CASCADE)
     recipe = models.ForeignKey(RecipeModel, on_delete=models.CASCADE)
-    amount = models.PositiveIntegerField(null=True, default=0)
+    amount = models.DecimalField(null=True, default=0, max_digits=300, decimal_places=1)
     unit = models.CharField(max_length=50, choices=Unit.choices, null=True)

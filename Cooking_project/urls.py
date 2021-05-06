@@ -23,6 +23,7 @@ urlpatterns = [
     path('add_r/', v.RecipeFormView.as_view(), name="add_recipe"),
     path('detail_r/<int:pk>/', v.RecipeDetailView.as_view(), name="detail_recipe"),
     path('', v.MainView.as_view(), name='main_page'),
-    path('detail_r/delete/<int:ingredients_id>/<int:recipe_id>/', v.delete_ingredient, name='delete_ingredient')
+    path('detail_r/delete/<int:ingredients_id>/<int:recipe_id>/', v.delete_ingredient, name='delete_ingredient'),
+    path('menu/', v.MenuView.as_view(), name='menu')
 
 ]

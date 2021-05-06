@@ -8,12 +8,13 @@
 <body>
 {% block content %}
     <h1>{{ recipe.title}} </h1>
-    <form method="POST">
+    <form method="POST" style="margin-left: 20px">
         {% csrf_token %}
         {{ form.as_p }}
-    <input type="submit" value="Dodaj">
+    <input type="submit" value="Dodaj" class="btn btn-info">
+
     </form>
-    <section>
+    <section style="margin-left: 20px">
     <div>
             <table class="table">
             <thead>
@@ -21,7 +22,6 @@
                 <th scope="col">Składnik</th>
                 <th scope="col">Ilość</th>
                 <th scope="col">Jednostka</th>
-                <th scope="col">delete</th>
 
             </tr>
             </thead>
@@ -31,7 +31,8 @@
                 <th scope="row">{{i.ingredients}}</th>
                 <td>{{ i.amount}}</td>
                 <td>{{ i.unit}}</td>
-                <td><a href="/detail_r/delete/{{i.ingredients_id}}/{{ i.recipe_id }}/">Usuń</a></td>
+                <td><a href="/detail_r/delete/{{i.ingredients_id}}/{{ i.recipe_id }}/">
+                    <button type="button" class="btn btn-info">Usuń</button></a></td>
             </tr>
             {% endfor %}
             </tbody>
