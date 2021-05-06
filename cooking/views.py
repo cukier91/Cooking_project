@@ -74,3 +74,8 @@ def delete_ingredient(request, ingredients_id, recipe_id):
         ingredient.delete()
         return redirect(f'/detail_r/{redirect_direct[0]}/')
 
+
+class MenuView(View):
+
+    def get(self, request, *args, **kwargs):
+        return render(request, 'cooking/random_menu.html')
