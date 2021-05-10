@@ -39,7 +39,6 @@
         background-color: #ffffff;
         font-family: cursive;
         font-size: 20px;
-        justify-content: center;
     }
 
     nav {
@@ -50,6 +49,9 @@
     table{
         margin-top: 30px;
         font-size: 20px;
+        caption-side: bottom;
+        text-align: left;
+        align-content: flex-start;
     }
 
 </style>
@@ -60,6 +62,14 @@
 
 
     {% endblock %}
+
+    </div>
+
+    <div class="table">
+        {% block table %}
+
+    {% endblock %}
+
     </div>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
             integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"

@@ -1,0 +1,74 @@
+{% extends "cooking/base.html" %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add new Recipe</title>
+</head>
+<body>
+{% block table %}
+    <h1 style="text-align: center">Twoje menu na ten tydzień: <b>{{ menu_p.0.menu.name }} Plan</b></h1>
+     <table class="table table-hover">
+        <thead>
+        <tr>
+            <th scope="col"></th>
+            <th scope="col">Śniadanie</th>
+            <th scope="col">Drugie śniadanie</th>
+            <th scope="col">Lunch</th>
+            <th scope="col">Obiad</th>
+            <th scope="col">Kolacja</th>
+        </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <th scope="row">Poniedziałek</th>
+                 {% for p in menu_p %}
+                <td>{{ p.recipe.title }}</td>
+                  {% endfor %}
+            </tr>
+           <tr>
+                <th scope="row">Wtorek</th>
+                 {% for w in menu_w %}
+                <td>{{ w.recipe.title }}</td>
+                  {% endfor %}
+            </tr>
+          <tr>
+                <th scope="row">Środa</th>
+                 {% for s in menu_s %}
+                <td>{{ s.recipe.title }}</td>
+                  {% endfor %}
+            </tr>
+            <tr>
+                <th scope="row">Czwartek</th>
+                 {% for c in menu_c %}
+                <td>{{ c.recipe.title }}</td>
+                  {% endfor %}
+            </tr>
+            <tr>
+                <th scope="row">Piątek</th>
+                 {% for pt in menu_pt %}
+                <td>{{ pt.recipe.title }}</td>
+                  {% endfor %}
+            </tr>
+          <tr>
+                <th scope="row">Sobota</th>
+                 {% for so in menu_so %}
+                <td>{{ so.recipe.title }}</td>
+                  {% endfor %}
+            </tr>
+           <tr>
+                <th scope="row">Niedziela</th>
+                 {% for n in menu_n %}
+                <td>{{ n.recipe.title }}</td>
+                  {% endfor %}
+            </tr>
+
+
+
+        </tbody>
+    </table>
+
+{% endblock %}
+</body>
+</html>
+

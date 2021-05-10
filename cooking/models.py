@@ -49,3 +49,36 @@ class RecipeIngredientsModel(models.Model):
     recipe = models.ForeignKey(RecipeModel, on_delete=models.CASCADE)
     amount = models.DecimalField(null=True, default=0, max_digits=300, decimal_places=1)
     unit = models.CharField(max_length=50, choices=Unit.choices, null=True)
+
+
+class MenuPlanModel(models.Model):
+    name = models.CharField(max_length=300, null=False)
+    date = models.DateTimeField(default=now, blank=False)
+    recipe = models.ManyToManyField(RecipeModel, through='MenuRecipeModel')
+
+
+class Meal(models.TextChoices):
+    breakfast = 'Śniadanie', 'Śniadanie'
+    second_breakfast = 'Drugie śniadanie', 'Drugie śniadanie'
+    lunch = 'Lunch do pracy', 'Lunch do pracy'
+    dinner = 'Obiad', 'Obiad'
+    supper = 'Kolacja', 'Kolacja'
+
+
+class Day(models.TextChoices):
+    monday = 'Poniedziałek', 'Poniedziałek'
+    tuesday = 'Wtorek', 'Wtorek'
+    wednesday = 'Środa', 'Środa'
+    thursday = 'Czwartek', 'Czwartek'
+    friday = 'Piątek', 'Piątek'
+    saturday = 'Sobota', 'Sobota'
+    sunday = 'Niedziela', 'Niedziela'
+
+
+class MenuRecipeModel(models.Model):
+    recipe = models.ForeignKey(RecipeModel, on_delete=models.CASCADE)
+    menu = models.ForeignKey(MenuPlanModel, on_delete=models.CASCADE)
+    day_name = models.CharField(max_length=50, choices=Day.choices, null=False)
+    meal_name = models.CharField(max_length=50, choices=Meal.choices, null=False)
+
+
