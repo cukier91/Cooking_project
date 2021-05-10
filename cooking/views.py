@@ -2,8 +2,11 @@ from django.shortcuts import render, redirect
 from django.views.generic.edit import FormView
 from django.views import View
 from .models import *
+import random
+from faker import Faker
+from django.urls import reverse
 
-from .forms import IngredientForm, RecipeForm, RecipeIngredientForm
+from .forms import IngredientForm, RecipeForm, RecipeIngredientForm, MenuPlanForm
 
 
 class IngredientsFormView(FormView):
@@ -68,6 +71,8 @@ class MainView(View):
 
 
 def delete_ingredient(request, ingredients_id, recipe_id):
+    # przy usuwaniu powtarzającego się składnika usuwa wszystkie wystąpienia, zmienić sposób wyszukiwania po ID modelu
+    # RecipeIngredientModel zamiast ID składnika !!
     ingredient = RecipeIngredientsModel.objects.filter(ingredients_id=ingredients_id, recipe_id=recipe_id)
     redirect_direct = [ingredient[0].recipe_id]
     if request.method == 'GET':
@@ -78,4 +83,153 @@ def delete_ingredient(request, ingredients_id, recipe_id):
 class MenuView(View):
 
     def get(self, request, *args, **kwargs):
-        return render(request, 'cooking/random_menu.html')
+        fake = Faker()
+        name = fake.name
+        form = MenuPlanForm(initial={'name': name})
+        context = {
+            'form': form
+        }
+        return render(request, 'cooking/random_menu.html', context)
+
+    def breakfast(self):
+        recipe_b = RecipeModel.objects.filter(mealtype__contains='Śniadanie')
+        meal_name = 'Śniadanie'
+        recipe_random_pick = random.sample(list(recipe_b), 7)
+        day_name = ['Poniedziałek', 'Wtorek', 'Środa', 'Czwartek', 'Piątek', 'Sobota', 'Niedziela']
+        breakfast = {
+            'recipe_random_pick': [],
+            'day_name': day_name,
+            'meal_name': []
+        }
+        for i in range(0, 7):
+            breakfast['recipe_random_pick'].append(recipe_random_pick[i])
+            breakfast['meal_name'].append(meal_name)
+        return breakfast
+
+    def second_breakfast(self):
+        recipe_sb = RecipeModel.objects.filter(mealtype__contains='Drugie śniadanie')
+        meal_name = 'Drugie śniadanie'
+        recipe_random_pick = random.sample(list(recipe_sb), 7)
+        day_name = ['Poniedziałek', 'Wtorek', 'Środa', 'Czwartek', 'Piątek', 'Sobota', 'Niedziela']
+        sbreakfast = {
+            'recipe_random_pick': [],
+            'day_name': day_name,
+            'meal_name': []
+        }
+        for i in range(0, 7):
+            sbreakfast['recipe_random_pick'].append(recipe_random_pick[i])
+            sbreakfast['meal_name'].append(meal_name)
+        return sbreakfast
+
+    def lunch(self):
+        recipe_l = RecipeModel.objects.filter(mealtype__contains='Lunch do pracy')
+        meal_name = 'Lunch do pracy'
+        recipe_random_pick = random.sample(list(recipe_l), 7)
+        day_name = ['Poniedziałek', 'Wtorek', 'Środa', 'Czwartek', 'Piątek', 'Sobota', 'Niedziela']
+        lunch = {
+            'recipe_random_pick': [],
+            'day_name': day_name,
+            'meal_name': []
+        }
+        for i in range(0, 7):
+            lunch['recipe_random_pick'].append(recipe_random_pick[i])
+            lunch['meal_name'].append(meal_name)
+        return lunch
+
+    def dinner(self):
+        recipe_d = RecipeModel.objects.filter(mealtype__contains='Obiad')
+        meal_name = 'Obiad'
+        recipe_random_pick = random.sample(list(recipe_d), 7)
+        day_name = ['Poniedziałek', 'Wtorek', 'Środa', 'Czwartek', 'Piątek', 'Sobota', 'Niedziela']
+        dinner = {
+            'recipe_random_pick': [],
+            'day_name': day_name,
+            'meal_name': []
+        }
+        for i in range(0, 7):
+            dinner['recipe_random_pick'].append(recipe_random_pick[i])
+            dinner['meal_name'].append(meal_name)
+        return dinner
+
+    def supper(self):
+        recipe_d = RecipeModel.objects.filter(mealtype__contains='Kolacja')
+        meal_name = 'Kolacja'
+        recipe_random_pick = random.sample(list(recipe_d), 7)
+        day_name = ['Poniedziałek', 'Wtorek', 'Środa', 'Czwartek', 'Piątek', 'Sobota', 'Niedziela']
+        supper = {
+            'recipe_random_pick': [],
+            'day_name': day_name,
+            'meal_name': []
+        }
+        for i in range(0, 7):
+            supper['recipe_random_pick'].append(recipe_random_pick[i])
+            supper['meal_name'].append(meal_name)
+        return supper
+
+
+
+    # def post(self, request, *args, **kwargs):
+    #     form = MenuPlanForm(request.POST or None)
+    #     if form.is_valid():
+    #         form.save()
+    #         recipe_d = RecipeModel.objects.filter(mealtype__contains='Obiad')
+    #         recipe = random.sample(list(recipe_d), 3)
+    #         # Wyszukiwanie 3 losowych przepisów
+    #         menu_id = MenuPlanModel.objects.all().last().id
+    #         menurecipe = MenuRecipeModel.objects.create(
+    #             recipe_id=recipe[0].id,
+    #             menu_id=menu_id,
+    #             day_name='Poniedziałek',
+    #             meal_name='Obiad'
+    #         )
+    #         # return redirect(f'/detail_m/{menu_id}/')
+    #         return redirect(reverse('detail_menu', kwargs={'pk': menu_id}))
+    #     else:
+    #         return redirect('main_page')
+
+    def post(self, request, *args, **kwargs):
+        form = MenuPlanForm(request.POST or None)
+        if form.is_valid():
+            form.save()
+            menu_id = MenuPlanModel.objects.all().last().id
+            for meal in [
+                self.breakfast(),
+                self.second_breakfast(),
+                self.lunch(),
+                self.dinner(),
+                self.supper()
+            ]:
+                for i in range(0, 7):
+                    menurecipe = MenuRecipeModel.objects.create(
+                        recipe_id=meal['recipe_random_pick'][i].id,
+                        menu_id=menu_id,
+                        day_name=meal['day_name'][i],
+                        meal_name=meal['meal_name'][i]
+                    )
+            # return redirect(f'/detail_m/{menu_id}/')
+            return redirect(reverse('detail_menu', kwargs={'pk': menu_id}))
+        else:
+            return redirect('main_page')
+
+
+class MenuDetailView(View):
+    def get(self, request, pk, *args, **kwargs):
+        menu_p = MenuRecipeModel.objects.filter(menu_id=pk, day_name='Poniedziałek')
+        menu_w = MenuRecipeModel.objects.filter(menu_id=pk, day_name='Wtorek')
+        menu_s = MenuRecipeModel.objects.filter(menu_id=pk, day_name='Środa')
+        menu_c = MenuRecipeModel.objects.filter(menu_id=pk, day_name='Czwartek')
+        menu_pt = MenuRecipeModel.objects.filter(menu_id=pk, day_name='Piątek')
+        menu_so = MenuRecipeModel.objects.filter(menu_id=pk, day_name='Sobota')
+        menu_n = MenuRecipeModel.objects.filter(menu_id=pk, day_name='Niedziela')
+        context = {
+            'menu_p': menu_p,
+            'menu_w': menu_w,
+            'menu_s': menu_s,
+            'menu_c': menu_c,
+            'menu_pt': menu_pt,
+            'menu_so': menu_so,
+            'menu_n': menu_n,
+        }
+        return render(request, 'cooking/menu_detail.html', context)
+
+

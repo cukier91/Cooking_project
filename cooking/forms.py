@@ -1,4 +1,6 @@
 from django import forms
+from django.views.generic import FormView
+
 from .models import *
 
 
@@ -32,3 +34,11 @@ class RecipeIngredientForm(forms.ModelForm):
         widgets = {
             'recipe': forms.HiddenInput,
         }
+
+
+class MenuPlanForm(forms.ModelForm):
+    class Meta:
+        model = MenuPlanModel
+        fields = [
+            'name',
+        ]

@@ -3,11 +3,15 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Pampuch & Pyza Menu</title>
+    <title>Menu</title>
 </head>
 <body>
 {% block content %}
-
+    <form method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+        <button type="submit" class="btn btn-info">Utwórz </button>
+    </form>
 
 {% endblock %}
 </body>
