@@ -214,6 +214,7 @@ class MenuDetailView(View):
 
 
 class BasketView(View):
+    # TODO Pytanie czy potrzebny jest model do koszyka czy wystarczy wyświetlanie na słowniku
     def get(self, request, pk, *args, **kwargs):
 
         menu = MenuRecipeModel.objects.filter(menu_id=pk)
