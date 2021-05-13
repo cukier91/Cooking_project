@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.template.smartif import key
 from django.views.generic.edit import FormView
 from django.views import View
 from .models import *
@@ -71,7 +72,7 @@ class MainView(View):
 
 
 def delete_ingredient(request, ingredients_id, recipe_id):
-    # przy usuwaniu powtarzającego się składnika usuwa wszystkie wystąpienia, zmienić sposób wyszukiwania po ID modelu
+    #TODO przy usuwaniu powtarzającego się składnika usuwa wszystkie wystąpienia, zmienić sposób wyszukiwania po ID modelu
     # RecipeIngredientModel zamiast ID składnika !!
     ingredient = RecipeIngredientsModel.objects.filter(ingredients_id=ingredients_id, recipe_id=recipe_id)
     redirect_direct = [ingredient[0].recipe_id]
@@ -81,7 +82,7 @@ def delete_ingredient(request, ingredients_id, recipe_id):
 
 
 class MenuView(View):
-
+    #TODO Koniecznie naprawić powtarzanie się w przepisach w których wystepuje więcej niż jedna kategoria
     def get(self, request, *args, **kwargs):
         fake = Faker()
         name = fake.name
@@ -166,27 +167,6 @@ class MenuView(View):
             supper['meal_name'].append(meal_name)
         return supper
 
-
-
-    # def post(self, request, *args, **kwargs):
-    #     form = MenuPlanForm(request.POST or None)
-    #     if form.is_valid():
-    #         form.save()
-    #         recipe_d = RecipeModel.objects.filter(mealtype__contains='Obiad')
-    #         recipe = random.sample(list(recipe_d), 3)
-    #         # Wyszukiwanie 3 losowych przepisów
-    #         menu_id = MenuPlanModel.objects.all().last().id
-    #         menurecipe = MenuRecipeModel.objects.create(
-    #             recipe_id=recipe[0].id,
-    #             menu_id=menu_id,
-    #             day_name='Poniedziałek',
-    #             meal_name='Obiad'
-    #         )
-    #         # return redirect(f'/detail_m/{menu_id}/')
-    #         return redirect(reverse('detail_menu', kwargs={'pk': menu_id}))
-    #     else:
-    #         return redirect('main_page')
-
     def post(self, request, *args, **kwargs):
         form = MenuPlanForm(request.POST or None)
         if form.is_valid():
@@ -233,3 +213,27 @@ class MenuDetailView(View):
         return render(request, 'cooking/menu_detail.html', context)
 
 
+class BasketView(View):
+    def get(self, request, pk, *args, **kwargs):
+
+        menu = MenuRecipeModel.objects.filter(menu_id=pk)
+        basket = {}
+        recipes = []
+        ingredients = []
+        for m in menu:
+            recipes.append(m.recipe_id)
+        for r in recipes:
+            query = RecipeIngredientsModel.objects.filter(recipe_id=r).all()
+            for q in query:
+                i = IngredientsModel.objects.filter(id=q.ingredients_id)
+                if f'{i[0]}' in basket:
+                    basket[f'{i[0]}'][0] = basket[f'{i[0]}'][0] + q.amount
+                else:
+                    basket[f'{i[0]}'] = [q.amount, q.unit]
+        ctx = {
+            'recipes': recipes,
+            'menu': menu,
+            'ingredients': ingredients,
+            'basket': basket
+        }
+        return render(request, 'cooking/basket.html', ctx)

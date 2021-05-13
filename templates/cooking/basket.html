@@ -1,0 +1,16 @@
+{% extends "cooking/base.html" %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add new Recipe</title>
+</head>
+<body>
+{% block content %}
+    {% for key,value in basket.items %}
+        {{ key}} {{ value.0 }} {{ value.1 }} <br>
+    {% endfor%}
+{% endblock %}
+</body>
+</html>
+
