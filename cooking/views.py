@@ -86,9 +86,11 @@ class MenuView(View):
     def get(self, request, *args, **kwargs):
         fake = Faker()
         name = fake.name
+        menu = MenuPlanModel.objects.all()
         form = MenuPlanForm(initial={'name': name})
         context = {
-            'form': form
+            'form': form,
+            'menu': menu
         }
         return render(request, 'cooking/random_menu.html', context)
 
@@ -209,6 +211,7 @@ class MenuDetailView(View):
             'menu_pt': menu_pt,
             'menu_so': menu_so,
             'menu_n': menu_n,
+            'pk': pk
         }
         return render(request, 'cooking/menu_detail.html', context)
 
@@ -238,3 +241,13 @@ class BasketView(View):
             'basket': basket
         }
         return render(request, 'cooking/basket.html', ctx)
+
+
+class ShoppingListView(View):
+
+    def get(self,request, *args, **kwargs):
+        menu = MenuPlanModel.objects.all()
+        ctx = {
+            'menu': menu
+        }
+        return render(request, 'cooking/shopping_lists.html',ctx )

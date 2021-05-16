@@ -7,12 +7,21 @@
 </head>
 <body>
 {% block content %}
+    <div style="margin-left: 20px">
     <form method="POST">
     {% csrf_token %}
     {{ form.as_p }}
-        <button type="submit" class="btn btn-info">Utwórz </button>
+        <button type="submit" class="btn btn-info">Utwórz nowe menu</button>
     </form>
-
+    </div>
+    <div style="margin-top: 20px; margin-left: 20px">
+    <h4>Twoje menu</h4>
+    <ul>
+    {% for m in menu %}
+        <li> <a style="color: black" href="/detail_m/{{ m.id }}/">{{ m.name }}</a></li>
+    {% endfor %}
+    </ul>
+    </div>
 {% endblock %}
 </body>
 </html>
