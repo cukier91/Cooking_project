@@ -1,0 +1,28 @@
+{% extends "cooking/base.html" %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add new Recipe</title>
+</head>
+<body>
+{% block content %}
+    <div style="margin-left: 20px">
+    {% for key,value in basket.items %}
+
+        <label >
+            <input type="checkbox">
+        {{ key}} {{ value.0 }} {{ value.1 }}
+        </label><br>
+
+    {% endfor%}
+
+    </div>
+    <script src="{% static 'js/script.js' %}"></script>
+{% endblock %}
+
+
+</body>
+</html>
+

@@ -1,0 +1,34 @@
+{% extends "cooking/base.html" %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add new Recipe</title>
+</head>
+<body>
+{% block content %}
+
+
+  <table class="table table-hover">
+        <thead>
+        <tr>
+            <th scope="col">Nazwa menu</th>
+            <th scope="col">Data utworzenia</th>
+            <th scope="col">Lista zakupów</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for m in menu %}
+            <tr>
+                <th scope="row"><a style="color: black" href="/detail_m/{{ m.id }}/">{{ m.name }}</a></th>
+                <td>{{ m.date|date:'d-m-Y'}}</td>
+                    <td><a href="/basket/{{ m.id }}/"><button class="btn btn-info">Przejdz do listy zakupów</button></a></td>
+                  {% endfor %}
+            </tr>
+        </tbody>
+    </table>
+{% endblock %}
+</body>
+</html>
+
