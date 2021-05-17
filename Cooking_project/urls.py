@@ -28,5 +28,6 @@ urlpatterns = [
     path('detail_m/<int:pk>/', v.MenuDetailView.as_view(), name="detail_menu"),
     path('basket/<int:pk>/', v.BasketView.as_view(), name="basket"),
     path('shoopinglist/', v.ShoppingListView.as_view(), name="shopping_lists"),
+    path('recipe/<int:pk>/', v.RecipeView.as_view(), name="recipe"),
 
 ]

@@ -250,4 +250,15 @@ class ShoppingListView(View):
         ctx = {
             'menu': menu
         }
-        return render(request, 'cooking/shopping_lists.html',ctx )
+        return render(request, 'cooking/shopping_lists.html', ctx)
+
+
+class RecipeView(View):
+    def get(self, request, pk, *args, **kwargs):
+        recipe = RecipeModel.objects.filter(id=pk)
+        ingredients = RecipeIngredientsModel.objects.filter(recipe_id=pk).all()
+        ctx = {
+            'recipe': recipe,
+            'ingredients': ingredients
+        }
+        return render(request,'cooking/recipe.html', ctx)

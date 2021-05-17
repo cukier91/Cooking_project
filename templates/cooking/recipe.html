@@ -1,0 +1,30 @@
+{% extends "cooking/base.html" %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add new Recipe</title>
+</head>
+<body>
+{% block content %}
+
+    <div style="text-align: center">
+    <h2>Składniki:</h2>
+    {% for i in ingredients %}
+        <b>{{ i.ingredients.name }}</b>
+        {{ i.amount }}
+        {{ i.unit }}<br>
+    {% endfor %}
+    </div>
+<div style="text-align: center; margin-top: 20px;">
+{% for r in recipe %}
+    <h2>{{ r.title }}</h2>
+    {{ r.description }}<br>
+    <div style="margin-left: 150px; margin-right: 150px; margin-top: 20px; text-align:center ">
+    {{ r.preparation }}<br>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}
+</body>
+</html>
