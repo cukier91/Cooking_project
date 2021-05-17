@@ -23,43 +23,43 @@
             <tr>
                 <th scope="row">Poniedziałek</th>
                  {% for p in menu_p %}
-                <td>{{ p.recipe.title }}</td>
+                <td><a style="color: black" href="/recipe/{{ p.recipe_id }}/">{{ p.recipe.title }}</a></td>
                   {% endfor %}
             </tr>
            <tr>
                 <th scope="row">Wtorek</th>
                  {% for w in menu_w %}
-                <td>{{ w.recipe.title }}</td>
+                <td><a style="color: black" href="/recipe/{{ w.recipe_id }}/">{{ w.recipe.title }}</a></td>
                   {% endfor %}
             </tr>
           <tr>
                 <th scope="row">Środa</th>
                  {% for s in menu_s %}
-                <td>{{ s.recipe.title }}</td>
+                <td><a style="color: black" href="/recipe/{{ s.recipe_id }}/">{{ s.recipe.title }}</a></td>
                   {% endfor %}
             </tr>
             <tr>
                 <th scope="row">Czwartek</th>
                  {% for c in menu_c %}
-                <td>{{ c.recipe.title }}</td>
+                <td><a style="color: black" href="/recipe/{{ c.recipe_id }}/">{{ c.recipe.title }}</a></td>
                   {% endfor %}
             </tr>
             <tr>
                 <th scope="row">Piątek</th>
                  {% for pt in menu_pt %}
-                <td>{{ pt.recipe.title }}</td>
+                <td><a style="color: black" href="/recipe/{{ pt.recipe_id }}/">{{ pt.recipe.title }}</a></td>
                   {% endfor %}
             </tr>
           <tr>
                 <th scope="row">Sobota</th>
                  {% for so in menu_so %}
-                <td>{{ so.recipe.title }}</td>
+                <td><a style="color: black" href="/recipe/{{ so.recipe_id }}/">{{ so.recipe.title }}</a></td>
                   {% endfor %}
             </tr>
            <tr>
                 <th scope="row">Niedziela</th>
                  {% for n in menu_n %}
-                <td>{{ n.recipe.title }}</td>
+                <td><a style="color: black" href="/recipe/{{ n.recipe_id }}/">{{ n.recipe.title }}</a></td>
                   {% endfor %}
             </tr>
         </tbody>
