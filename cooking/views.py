@@ -6,8 +6,11 @@ from .models import *
 import random
 from faker import Faker
 from django.urls import reverse
+from django.contrib import messages
+from django.contrib.auth import authenticate, login, logout
 
-from .forms import IngredientForm, RecipeForm, RecipeIngredientForm, MenuPlanForm
+
+from .forms import IngredientForm, RecipeForm, RecipeIngredientForm, MenuPlanForm, CreateUserForm
 
 
 class IngredientsFormView(FormView):
@@ -261,4 +264,40 @@ class RecipeView(View):
             'recipe': recipe,
             'ingredients': ingredients
         }
-        return render(request,'cooking/recipe.html', ctx)
+        return render(request, 'cooking/recipe.html', ctx)
+
+
+def register(request):
+    form = CreateUserForm()
+
+    if request.method == 'POST':
+        form = CreateUserForm(request.POST)
+        if form.is_valid():
+            form.save()
+            user = form.cleaned_data.get('username')
+            messages.success(request, 'Konto zostało utworzone poprawnie, Smacznego ! ' + user)
+            return redirect('login')
+
+    context = {
+        'form': form
+    }
+    return render(request,'cooking/register.html', context)
+
+
+def loginview(request):
+
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+
+        user = authenticate(request, username=username, password=password)
+
+        if user is not None:
+            login(request, user)
+            return redirect('main_page')
+        else:
+            messages.info(request, 'Nazwa użytkownika lub hasło są niepoprawne ')
+
+
+    context = {}
+    return render(request, 'cooking/login.html', context)
