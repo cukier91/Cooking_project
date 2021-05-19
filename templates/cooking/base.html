@@ -10,9 +10,12 @@
 </head>
 <body>
 <header>
+
     <div style="text-align: center;"><img src="{% static 'images/logo.png' %}" width="15%" height="15%" alt="logo">
     </div>
     <nav>
+        <div>
+
         <ul class="nav justify-content-center">
             <li class="nav-item">
                 <a style="color: #ffffff" class="nav-link active" href="/"><u>Home</u></a>
@@ -30,7 +33,21 @@
                 <a style="color: #ffffff" class="nav-link" href="/shoopinglist/" tabindex="-1"
                    aria-disabled="true">Moje listy zakupów</a>
             </li>
+            {% if request.user.id == None %}
+                <li class="nav-item">
+                    <a style="color: #ffffff" class="nav-link" href="{% url 'login' %}" tabindex="-1"
+                       aria-disabled="true"><b>Zaloguj się</b></a>
+                </li>
+                {% else %}
+                 <li class="nav-item">
+                    <a style="color: #ffffff" class="nav-link" href="{% url 'logout' %}" tabindex="-1"
+                       aria-disabled="true"><b>Wyloguj {{ request.user }}</b></a>
+                </li>
+            {% endif %}
         </ul>
+
+            </div>
+
     </nav>
 </header>
 </header>
