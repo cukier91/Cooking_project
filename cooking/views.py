@@ -2,6 +2,8 @@ from django.shortcuts import render, redirect
 from django.template.smartif import key
 from django.views.generic.edit import FormView
 from django.views import View
+
+from .decorators import unauthenticated_user
 from .models import *
 import random
 from faker import Faker
@@ -9,6 +11,7 @@ from django.urls import reverse
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+
 
 
 from .forms import IngredientForm, RecipeForm, RecipeIngredientForm, MenuPlanForm, CreateUserForm
@@ -267,44 +270,40 @@ class RecipeView(View):
         return render(request, 'cooking/recipe.html', ctx)
 
 
+@unauthenticated_user
 def register(request):
-    if request.user.is_authenticated:
-        return redirect('main_page')
-    else:
-        form = CreateUserForm()
+    form = CreateUserForm()
 
-        if request.method == 'POST':
-            form = CreateUserForm(request.POST)
-            if form.is_valid():
-                form.save()
-                user = form.cleaned_data.get('username')
-                messages.success(request, 'Konto zostało utworzone poprawnie, Smacznego ! ' + user)
-                return redirect('login')
+    if request.method == 'POST':
+        form = CreateUserForm(request.POST)
+        if form.is_valid():
+            form.save()
+            user = form.cleaned_data.get('username')
+            messages.success(request, 'Konto zostało utworzone poprawnie, Smacznego ! ' + user)
+            return redirect('login')
 
-        context = {
-            'form': form
-        }
-        return render(request,'cooking/register.html', context)
+    context = {
+        'form': form
+    }
+    return render(request, 'cooking/register.html', context)
 
 
+@unauthenticated_user
 def loginview(request):
-    if request.user.is_authenticated:
-        return redirect('main_page')
-    else:
-        if request.method == 'POST':
-            username = request.POST.get('username')
-            password = request.POST.get('password')
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
 
-            user = authenticate(request, username=username, password=password)
+        user = authenticate(request, username=username, password=password)
 
-            if user is not None:
-                login(request, user)
-                return redirect('main_page')
-            else:
-                messages.info(request, 'Nazwa użytkownika lub hasło są niepoprawne ')
+        if user is not None:
+            login(request, user)
+            return redirect('main_page')
+        else:
+            messages.info(request, 'Nazwa użytkownika lub hasło są niepoprawne ')
 
-        context = {}
-        return render(request, 'cooking/login.html', context)
+    context = {}
+    return render(request, 'cooking/login.html', context)
 
 
 def logoutview(request):
