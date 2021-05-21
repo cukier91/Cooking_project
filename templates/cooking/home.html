@@ -1,4 +1,5 @@
 {% extends "cooking/base.html" %}
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,8 +7,33 @@
     <title>Pampuch & Pyza</title>
 </head>
 <body>
-{% block content %}
 
+{% block content %}
+    <div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel" style="margin-top: 30px;
+margin-right: 500px; margin-left: 500px;">
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <a href="/recipe/39"> <img class="d-block w-100" src="{% static 'images/39.jpg' %}"
+                                            alt="First slide"></a>
+            </div>
+            <div class="carousel-item">
+                <a href="/recipe/41"> <img class="d-block w-100" src="{% static 'images/tofu.jpg' %}"
+                                           alt="Second slide"></a>
+            </div>
+            <div class="carousel-item">
+               <a href="/recipe/33"><img class="d-block w-100" src="{% static 'images/zupa.jpg' %}"
+                                         alt="Third slide"></a>
+            </div>
+            <div class="carousel-item">
+                <a href="/recipe/32"> <img class="d-block w-100" src="{% static 'images/szpinak.jpg' %}"
+                                           alt="Third slide"></a>
+            </div>
+            <div class="carousel-item">
+               <a href="/recipe/32">  <img class="d-block w-100" src="{% static 'images/pasta.jpg' %}"
+                                           alt="Third slide"></a>
+            </div>
+        </div>
+    </div>
 
 {% endblock %}
 </body>

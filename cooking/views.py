@@ -18,6 +18,7 @@ from .forms import IngredientForm, RecipeForm, RecipeIngredientForm, MenuPlanFor
 
 class IngredientsFormView(PermissionRequiredMixin, FormView):
     permission_required = 'Can add ingredients model'
+
     def get(self, request, *args, **kwargs):
         ingredients = IngredientsModel.objects.all()
         form = IngredientForm()
@@ -32,6 +33,7 @@ class IngredientsFormView(PermissionRequiredMixin, FormView):
 
 class RecipeFormView(PermissionRequiredMixin, FormView):
     permission_required = 'Can add recipe model'
+
     def get(self, request, *args, **kwargs):
         ingredients = IngredientsModel.objects.all().first()
         form = RecipeForm(initial={'ingredients': ingredients})
