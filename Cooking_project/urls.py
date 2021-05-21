@@ -29,8 +29,8 @@ urlpatterns = [
     path('basket/<int:pk>/', v.BasketView.as_view(), name="basket"),
     path('shoopinglist/', v.ShoppingListView.as_view(), name="shopping_lists"),
     path('recipe/<int:pk>/', v.RecipeView.as_view(), name="recipe"),
-    path('register/', v.register, name="register"),
-    path('login/', v.loginview, name="login"),
-    path('logout/', v.logoutview, name="logout"),
+    path('register/', v.Register.as_view(), name="register"),
+    path('login/', v.LoginClassView.as_view(), name="login"),
+    path('logout/', v.LogoutView.as_view(), name="logout"),
 
 ]

@@ -17,10 +17,28 @@
         <div>
 
         <ul class="nav justify-content-center">
+        {% if request.user.is_superuser == False %}
             <li class="nav-item">
                 <a style="color: #ffffff" class="nav-link active" href="/"><u>Home</u></a>
             </li>
+            <li class="nav-item" hidden>
+                <a style="color: #ffffff" class="nav-link" href="/add_r/">Dodaj przepis</a>
+            </li>
             <li class="nav-item">
+                <a style="color: #ffffff" class="nav-link" href="/menu/">Moje Menu</a>
+            </li>
+             <li class="nav-item" hidden>
+                <a style="color: #ffffff" class="nav-link" href="/add_i/">Baza składników</a>
+            </li>
+            <li class="nav-item">
+                <a style="color: #ffffff" class="nav-link" href="/shoopinglist/" tabindex="-1"
+                   aria-disabled="true">Moje listy zakupów</a>
+            </li>
+            {% elif request.user.is_superuser == True  %}
+            <li class="nav-item">
+                <a style="color: #ffffff" class="nav-link active" href="/"><u>Home</u></a>
+            </li>
+            <li class="nav-item" >
                 <a style="color: #ffffff" class="nav-link" href="/add_r/">Dodaj przepis</a>
             </li>
             <li class="nav-item">
@@ -33,6 +51,7 @@
                 <a style="color: #ffffff" class="nav-link" href="/shoopinglist/" tabindex="-1"
                    aria-disabled="true">Moje listy zakupów</a>
             </li>
+        {% endif %}
             {% if request.user.id == None %}
                 <li class="nav-item">
                     <a style="color: #ffffff" class="nav-link" href="{% url 'login' %}" tabindex="-1"
