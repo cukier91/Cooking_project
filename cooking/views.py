@@ -77,10 +77,8 @@ def mainview(request, *args, **kwargs):
     return render(request, 'cooking/home.html')
 
 
-def delete_ingredient(request, ingredients_id, recipe_id):
-    #TODO przy usuwaniu powtarzającego się składnika usuwa wszystkie wystąpienia, zmienić sposób wyszukiwania po ID modelu
-    # RecipeIngredientModel zamiast ID składnika !!
-    ingredient = RecipeIngredientsModel.objects.filter(ingredients_id=ingredients_id, recipe_id=recipe_id)
+def delete_ingredient(request, id, recipe_id):
+    ingredient = RecipeIngredientsModel.objects.filter(id=id, recipe_id=recipe_id)
     redirect_direct = [ingredient[0].recipe_id]
     if request.method == 'GET':
         ingredient.delete()
