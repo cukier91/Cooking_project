@@ -8,7 +8,9 @@
 </head>
 <body>
 {% block content %}
-    <div style="margin-left: 20px">
+
+    <div style="margin-left: 20px; text-align: center">
+        <h3><b>Lista zakupów</b></h3>
     {% for key,value in basket.items %}
 
         <label >
@@ -17,7 +19,6 @@
         </label><br>
 
     {% endfor%}
-
     </div>
     <script src="{% static 'js/script.js' %}"></script>
 {% endblock %}

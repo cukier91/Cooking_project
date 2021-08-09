@@ -1,0 +1,21 @@
+{% extends "cooking/base.html" %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Pampuch & Pyza</title>
+</head>
+<body>
+
+{% block content %}
+<form>
+    {% for i in ingredients %}
+{{ i }}<br>
+    {% endfor %}
+    <button type="submit">Przelicz</button>
+    <form>
+
+{% endblock %}
+</body>
+</html>

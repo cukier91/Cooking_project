@@ -1,17 +1,14 @@
-from django.contrib.auth.decorators import user_passes_test
 from django.shortcuts import render, redirect
-from django.template.smartif import key
 from django.views.generic.edit import FormView
 from django.views import View
-
 from .models import *
 import random
 from faker import Faker
 from django.urls import reverse
-from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.views import LoginView, LogoutView
+from calories.views import API
 
 from .forms import IngredientForm, RecipeForm, RecipeIngredientForm, MenuPlanForm, CreateUserForm
 
@@ -70,7 +67,6 @@ class RecipeDetailView(View):
             form.save()
             recipe_id = RecipeIngredientsModel.objects.all().last().recipe_id
             return redirect(f'/detail_r/{recipe_id}/')
-
 
 
 def mainview(request, *args, **kwargs):
@@ -194,7 +190,6 @@ class MenuView(LoginRequiredMixin, View):
                         day_name=meal['day_name'][i],
                         meal_name=meal['meal_name'][i]
                     )
-            # return redirect(f'/detail_m/{menu_id}/')
             return redirect(reverse('detail_menu', kwargs={'pk': menu_id}))
         else:
             return redirect('main_page')
@@ -244,7 +239,7 @@ class BasketView(View):
             'recipes': recipes,
             'menu': menu,
             'ingredients': ingredients,
-            'basket': basket
+            'basket': basket,
         }
         return render(request, 'cooking/basket.html', ctx)
 
@@ -299,6 +294,7 @@ class LogoutView(LogoutView):
 
 
 class LoginClassView(LoginTest, LoginView):
+    # Todo zmienić na form
     template_name = 'cooking/login.html'
 
     def post(self, request, *args, **kwargs):

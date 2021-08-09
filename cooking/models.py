@@ -6,6 +6,13 @@ from multiselectfield import MultiSelectField
 
 class IngredientsModel(models.Model):
     name = models.CharField(max_length=500, unique=True)
+    energy = models.FloatField(null=True, blank=True,)
+    fat = models.FloatField(null=True, blank=True)
+    carbohydrates = models.FloatField(null=True, blank=True)
+    fiber = models.FloatField(null=True, blank=True)
+    protein = models.FloatField(null=True, blank=True)
+    salt = models.FloatField(null=True, blank=True)
+    sugar = models.FloatField(null=True, blank=True)
 
     def __str__(self):
         return self.name
@@ -29,7 +36,7 @@ class Unit(models.TextChoices):
 MEAL_CHOICE = (
     ('Śniadanie', 'Śniadanie'),
     ('Drugie śniadanie', 'Drugie śniadanie'),
-    ('Lunch do pracy', 'Lunch do pracy'),
+    ('Lunch', 'Lunch'),
     ('Obiad', 'Obiad'),
     ('Kolacja', 'Kolacja')
 )

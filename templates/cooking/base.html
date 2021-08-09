@@ -51,6 +51,10 @@
                 <a style="color: #ffffff" class="nav-link" href="/shoopinglist/" tabindex="-1"
                    aria-disabled="true">Moje listy zakupów</a>
             </li>
+            <li class="nav-item">
+                <a style="color: #ffffff" class="nav-link" href="/calories/" tabindex="-1"
+                   aria-disabled="true">Kalkulator kalorii</a>
+            </li>
         {% endif %}
             {% if request.user.id == None %}
                 <li class="nav-item">
@@ -91,6 +95,7 @@
         text-align: left;
         align-content: flex-start;
     }
+
 
 </style>
     <div style="flex-wrap: nowrap; margin-top: 20px">
