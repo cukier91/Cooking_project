@@ -8,6 +8,7 @@ class IngredientSerializer(serializers.ModelSerializer):
     class Meta:
         model = cooking.models.IngredientsModel
         fields = (
+            'id',
             'name',
             'energy',
             'fat',

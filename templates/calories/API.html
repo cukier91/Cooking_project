@@ -1,7 +1,7 @@
 {% extends "cooking/base.html" %}
 {% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pl">
 <head>
     <meta charset="UTF-8">
     <title>Pampuch & Pyza</title>
@@ -9,13 +9,20 @@
 <body>
 
 {% block content %}
-<form>
-    {% for i in ingredients %}
-{{ i }}<br>
-    {% endfor %}
-    <button type="submit">Przelicz</button>
+    <section id="section_test">
     <form>
-
+     <label for="selector">Wybierz produkty do kalkulatora</label><br>
+    <div id='div_test' style="margin-left: 30px;">
+    <select id="selector">
+    {% for i in ingredients %}
+        <option id="option_{{ i.id }}">{{ i.name }}</option>
+    {% endfor %}
+    <input type="number" step="0.01">
+    </select><br>
+    </div>
+    </form>
+    </section>
+       <button id="button_add">Dodaj</button><button id="check">Sprawdź</button>
 {% endblock %}
 </body>
 </html>
