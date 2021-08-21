@@ -9,6 +9,12 @@
 <body>
 
 {% block content %}
+    <style>
+    table,th,td {
+        border: 1px solid black;
+        margin-inside: 13px;
+    }
+    </style>
     <section id="section_test">
     <form>
      <label for="selector">Wybierz produkty do kalkulatora</label><br>
@@ -23,6 +29,23 @@
     </form>
     </section>
        <button id="button_add">Dodaj</button><button id="check">Sprawdź</button>
+
+    <table  style="margin-top: 50px; margin-left: 15px" width="50%">
+        <tr>
+            <th>Nazwa</th>
+            <th>Kalorie</th>
+            <th>Tłuszcz</th>
+            <th>Węglowodany</th>
+            <th>Błonnik</th>
+            <th>Białko</th>
+            <th>Sól</th>
+            <th>Cukier</th>
+        </tr>
+    <tbody id="products">
+
+    </tbody>
+    </table>
+
 {% endblock %}
 </body>
 </html>
