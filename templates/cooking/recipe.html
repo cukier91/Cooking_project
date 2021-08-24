@@ -1,4 +1,5 @@
 {% extends "cooking/base.html" %}
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -16,11 +17,11 @@
         {{ i.unit }}<br>
     {% endfor %}
     </div>
-<div style="text-align: center; margin-top: 20px;">
+<div style="text-align: center; margin-top: 20px; flex-wrap: wrap" >
 {% for r in recipe %}
     <h2>{{ r.title }}</h2>
     {{ r.description }}<br>
-    <div style="margin-left: 150px; margin-right: 150px; margin-top: 20px; text-align:center ">
+    <div style="margin-left: 50px; margin-right: 50px; margin-top: 20px; text-align:center ">
     {{ r.preparation }}<br>
     </div>
     {% endfor %}

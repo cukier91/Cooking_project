@@ -1,20 +1,20 @@
 from django.shortcuts import render, redirect
-from django.template.smartif import key
 from django.views.generic.edit import FormView
 from django.views import View
 from .models import *
 import random
 from faker import Faker
 from django.urls import reverse
-from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.decorators import login_required
-
+from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMixin, UserPassesTestMixin
+from django.contrib.auth.views import LoginView, LogoutView
+from calories.views import API
 
 from .forms import IngredientForm, RecipeForm, RecipeIngredientForm, MenuPlanForm, CreateUserForm
 
 
-class IngredientsFormView(FormView):
+class IngredientsFormView(PermissionRequiredMixin, FormView):
+    permission_required = 'Can add ingredients model'
 
     def get(self, request, *args, **kwargs):
         ingredients = IngredientsModel.objects.all()
@@ -28,7 +28,8 @@ class IngredientsFormView(FormView):
             return redirect('/add_i/')
 
 
-class RecipeFormView(FormView):
+class RecipeFormView(PermissionRequiredMixin, FormView):
+    permission_required = 'Can add recipe model'
 
     def get(self, request, *args, **kwargs):
         ingredients = IngredientsModel.objects.all().first()
@@ -45,7 +46,6 @@ class RecipeFormView(FormView):
 
 
 class RecipeDetailView(View):
-
     def get(self, request, pk, *args, **kwargs):
         delete = RecipeIngredientsModel.objects.filter(amount__exact=0).delete()
         recipe = RecipeModel.objects.get(id=pk)
@@ -69,23 +69,22 @@ class RecipeDetailView(View):
             return redirect(f'/detail_r/{recipe_id}/')
 
 
-# @login_required(login_url='login')
 def mainview(request, *args, **kwargs):
     return render(request, 'cooking/home.html')
 
 
-def delete_ingredient(request, ingredients_id, recipe_id):
-    #TODO przy usuwaniu powtarzającego się składnika usuwa wszystkie wystąpienia, zmienić sposób wyszukiwania po ID modelu
-    # RecipeIngredientModel zamiast ID składnika !!
-    ingredient = RecipeIngredientsModel.objects.filter(ingredients_id=ingredients_id, recipe_id=recipe_id)
+def delete_ingredient(request, id, recipe_id):
+    ingredient = RecipeIngredientsModel.objects.filter(id=id, recipe_id=recipe_id)
     redirect_direct = [ingredient[0].recipe_id]
     if request.method == 'GET':
         ingredient.delete()
         return redirect(f'/detail_r/{redirect_direct[0]}/')
 
 
-class MenuView(View):
+class MenuView(LoginRequiredMixin, View):
+    login_url = '/login/'
     #TODO Koniecznie naprawić powtarzanie się w przepisach w których wystepuje więcej niż jedna kategoria
+
     def get(self, request, *args, **kwargs):
         fake = Faker()
         name = fake.name
@@ -191,7 +190,6 @@ class MenuView(View):
                         day_name=meal['day_name'][i],
                         meal_name=meal['meal_name'][i]
                     )
-            # return redirect(f'/detail_m/{menu_id}/')
             return redirect(reverse('detail_menu', kwargs={'pk': menu_id}))
         else:
             return redirect('main_page')
@@ -241,7 +239,7 @@ class BasketView(View):
             'recipes': recipes,
             'menu': menu,
             'ingredients': ingredients,
-            'basket': basket
+            'basket': basket,
         }
         return render(request, 'cooking/basket.html', ctx)
 
@@ -267,47 +265,49 @@ class RecipeView(View):
         return render(request, 'cooking/recipe.html', ctx)
 
 
-def register(request):
-    if request.user.is_authenticated:
-        return redirect('main_page')
-    else:
+class LoginTest(UserPassesTestMixin):
+
+    def test_func(self):
+        if self.request.user.id is None:
+            return True
+
+
+class Register(LoginTest, View):
+
+    def get(self, request, *args, **kwargs):
         form = CreateUserForm()
-
-        if request.method == 'POST':
-            form = CreateUserForm(request.POST)
-            if form.is_valid():
-                form.save()
-                user = form.cleaned_data.get('username')
-                messages.success(request, 'Konto zostało utworzone poprawnie, Smacznego ! ' + user)
-                return redirect('login')
-
         context = {
             'form': form
         }
-        return render(request,'cooking/register.html', context)
+        return render(request, 'cooking/register.html', context)
+
+    def post(self, request, *args, **kwargs):
+        form = CreateUserForm(request.POST)
+        if form.is_valid():
+            form.save()
+            user = form.cleaned_data.get('username')
+            return redirect('login')
 
 
-def loginview(request):
-    if request.user.is_authenticated:
-        return redirect('main_page')
-    else:
-        if request.method == 'POST':
-            username = request.POST.get('username')
-            password = request.POST.get('password')
-
-            user = authenticate(request, username=username, password=password)
-
-            if user is not None:
-                login(request, user)
-                return redirect('main_page')
-            else:
-                messages.info(request, 'Nazwa użytkownika lub hasło są niepoprawne ')
-
-        context = {}
-        return render(request, 'cooking/login.html', context)
+class LogoutView(LogoutView):
+    next_page = '/login/'
 
 
-def logoutview(request):
-    logout(request)
-    return redirect('login')
+class LoginClassView(LoginTest, LoginView):
+    # Todo zmienić na form
+    template_name = 'cooking/login.html'
+
+    def post(self, request, *args, **kwargs):
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+
+        user = authenticate(request, username=username, password=password)
+
+        if user is not None:
+            login(request, user)
+            return redirect('main_page')
+        else:
+            messages_f = ['Nieprawidłowa nazwa użytkownika lub hasło']
+        return render(request, 'cooking/login.html', {'messages_f': messages_f})
+
 

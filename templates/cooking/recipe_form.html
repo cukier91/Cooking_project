@@ -8,20 +8,24 @@
 </head>
 <body>
 {% block content %}
+    <div class="mb-3">
     <form class="container" method="post">
         {% csrf_token %}
         {{ form.as_p }}
         <button type="submit" class="btn btn-info">Dodaj</button>
     </form>
-    <h3 style="margin-top: 30px">Wszystkie przepisy</h3>
-    <div style="align-content: center; margin-top: 20px">
-        {% for r in recipe %}
+    </div>
+    <div style="margin-left: 30px;">
+        <h3 style="margin-top: 30px">Wszystkie przepisy</h3>
+        <div style="align-content: center; margin-top: 20px">
+            {% for r in recipe %}
 
-            <ul style="margin-top: 30px">
-                <li><u><a href="/detail_r/{{ r.id }}"> {{ r.title }}</a></u></li>
-            </ul>
+                <ul style="margin-top: 30px">
+                    <li><u><a href="/detail_r/{{ r.id }}"> {{ r.title }}</a></u></li>
+                </ul>
 
-        {% endfor %}
+            {% endfor %}
+        </div>
     </div>
 {% endblock %}
 

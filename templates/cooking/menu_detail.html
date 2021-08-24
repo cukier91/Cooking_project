@@ -8,7 +8,7 @@
 <body>
 {% block table %}
     <h1 style="text-align: center">Twoje menu na ten tydzień: <b>{{ menu_p.0.menu.name }}'s Plan</b></h1>
-     <table class="table table-hover" style="margin-left: 20px">
+     <table class="table table-hover" style="margin-left: 40px">
         <thead>
         <tr>
             <th scope="col"></th>
@@ -65,6 +65,7 @@
         </tbody>
     </table>
     <a style="margin-left: 20px" href="/basket/{{ pk }}/"><button class="btn btn-info">Pokaż listę zakupów</button></a>
+
 {% endblock %}
 </body>
 </html>

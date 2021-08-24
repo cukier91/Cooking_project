@@ -8,16 +8,17 @@
 </head>
 <body>
 {% block content %}
-    <div style="margin-left: 20px">
+
+    <div style="margin-left: 20px; text-align: center">
+        <h3><b>Lista zakupów</b></h3>
     {% for key,value in basket.items %}
 
         <label >
-            <input type="checkbox">
+            <input id='checkbox_list'type="checkbox">
         {{ key}} {{ value.0 }} {{ value.1 }}
         </label><br>
 
     {% endfor%}
-
     </div>
     <script src="{% static 'js/script.js' %}"></script>
 {% endblock %}

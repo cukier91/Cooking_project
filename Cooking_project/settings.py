@@ -39,7 +39,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'cooking',
-    'multiselectfield'
+    'multiselectfield',
+    'rest_framework',
+    'calories'
 ]
 
 MIDDLEWARE = [

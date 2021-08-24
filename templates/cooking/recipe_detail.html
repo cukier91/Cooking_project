@@ -7,38 +7,41 @@
 </head>
 <body>
 {% block content %}
-    <h1>{{ recipe.title}} </h1>
-    <form method="POST" style="margin-left: 20px">
-        {% csrf_token %}
-        {{ form.as_p }}
-    <input type="submit" value="Dodaj" class="btn btn-info">
+    <div style="text-align: center">
+        <h1 style='margin-left: 30px;'>{{ recipe.title }} </h1>
+        <form method="POST" style="margin-left: 30px">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <input type="submit" value="Dodaj" class="btn btn-info">
 
-    </form>
-    <section style="margin-left: 20px">
-    <div>
-            <table class="table">
-            <thead>
-            <tr>
-                <th scope="col">Składnik</th>
-                <th scope="col">Ilość</th>
-                <th scope="col">Jednostka</th>
+        </form>
+        <section style="margin-left: 20px">
+            <div style='margin-left: 30px;'>
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th scope="col">Składnik</th>
+                        <th scope="col">Ilość</th>
+                        <th scope="col">Jednostka</th>
 
-            </tr>
-            </thead>
-            <tbody>
-            {% for i in ingredients %}
-            <tr>
-                <th scope="row">{{i.ingredients}}</th>
-                <td>{{ i.amount}}</td>
-                <td>{{ i.unit}}</td>
-                <td><a href="/detail_r/delete/{{i.ingredients_id}}/{{ i.recipe_id }}/">
-                    <button type="button" class="btn btn-info">Usuń</button></a></td>
-            </tr>
-            {% endfor %}
-            </tbody>
-        </table>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for i in ingredients %}
+                        <tr>
+                            <th scope="row">{{ i.ingredients }}</th>
+                            <td>{{ i.amount }}</td>
+                            <td>{{ i.unit }}</td>
+                            <td><a href="/detail_r/delete/{{ i.id }}/{{ i.recipe_id }}/">
+                                <button type="button" class="btn btn-info">Usuń</button>
+                            </a></td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </section>
     </div>
-    </section>
 {% endblock %}
 </body>
 </html>
